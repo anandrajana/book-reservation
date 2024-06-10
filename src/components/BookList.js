@@ -6,16 +6,21 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 function BookList() {
   const [books, setBooks] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get(`${API_URL}/books`)
+    axios.get(`${API_URL}/books`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(response => setBooks(response.data))
       .catch(error => console.error('Error fetching books:', error));
-  }, []);
+  }, [token]);
 
   return (
     <div>
-      <h1>Available Books</h1>
+      <h1>List of Books</h1>
       <ul>
         {books.map(book => (
           <li key={book._id}>
